@@ -116,7 +116,7 @@ bool match_lang_code(const char *lang_code, const char *lang) {
   return false;
 }
 
-void i18n_set_lang_id(void) {
+void i18n_set_lang_id(const char *const override) {
   if (lang_id != -1)
     return;
 
@@ -140,6 +140,20 @@ void i18n_set_lang_id(void) {
     lang = "en_US";
   }
 #endif
+
+  if (override != NULL)
+  {
+      __info__("Attempting override with language %s\n", override);
+      for (lang_id = length(langs) - 1; lang_id >= 0; lang_id--)
+          if (match_lang_code(langs[lang_id].code, override))
+              return;
+  }
+
+  if (override != NULL)
+  {
+      __error__("activate-linux lacks translation for `%s' language, or the language code was entered incorrectly.\n", override);
+      __error__("Using system language instead\n");
+  }
 
   __info__("Got user language %s\n", lang);
   for (lang_id = length(langs) - 1; lang_id >= 0; lang_id--)
@@ -175,8 +189,8 @@ void i18n_set_preset(const char *const preset) {
 }
 
 void *allocated[] = {NULL, NULL};
-void i18n_set_info(const char *const preset) {
-  i18n_set_lang_id();
+void i18n_set_info(const char *const preset, const char *const override) {
+  i18n_set_lang_id(override);
 
   __info__("Loading preset: %s\n", preset);
   i18n_set_preset(preset);

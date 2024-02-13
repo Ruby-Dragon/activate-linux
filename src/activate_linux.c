@@ -25,7 +25,7 @@
 
 int main(int argc, char *const argv[]) {
   // options with their default values are in global variable `options'
-  i18n_set_info(NULL);
+  i18n_set_info(NULL, NULL);
   parse_options(argc, argv);
 
   if (options.kill_running) {

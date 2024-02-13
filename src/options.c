@@ -58,6 +58,7 @@ void parse_options(int argc, char *const argv[]) {
     // text
     {"text-title",          required_argument, NULL, 't'},
     {"text-message",        required_argument, NULL, 'm'},
+    {"language-override",   required_argument, NULL, 'o'},
     {"text-preset",         required_argument, NULL, 'p'},
     // appearance
     {"text-font",           required_argument, NULL, 'f'},
@@ -89,7 +90,7 @@ void parse_options(int argc, char *const argv[]) {
   };
 
   int opt;
-  while ((opt = getopt_long(argc, argv, "t:m:p:f:bic:x:y:s:H:V:wdKvlqGh"
+  while ((opt = getopt_long(argc, argv, "t:m:p:o:f:bic:x:y:s:H:V:wdKvlqGh"
 #ifdef X11
       "S"
 #endif
@@ -102,7 +103,8 @@ void parse_options(int argc, char *const argv[]) {
       // text
       case 't': options.title = optarg; break;
       case 'm': options.subtitle = optarg; break;
-      case 'p': i18n_set_info(optarg); break;
+      case 'o': i18n_set_info(NULL, optarg); options.language_override = optarg; break;
+      case 'p': i18n_set_info(optarg, options.language_override); break;
       // appearance
       case 'f': options.custom_font = optarg; break;
       case 'b': options.bold_mode = true; break;
@@ -176,6 +178,7 @@ void print_help(const char *const file_name) {
   SECTION("Text", "");
   HELP("-t, --text-title title\tSet  title  text (string)");
   HELP("-m, --text-message message\tSet message text (string)");
+  HELP("-o, --language-override lang\tOverride user language (string)");
   HELP("-p, --text-preset preset\tSelect predefined preset (conflicts "
       "-t/-m)");
   END();

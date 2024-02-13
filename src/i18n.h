@@ -28,7 +28,7 @@ typedef struct {
 } preset_t;
 
 
-void i18n_set_info(const char *const preset);
-void i18n_list_presets(void);
+void i18n_set_info(const char *const preset, const char *const override);
+void i18n_list_presets(void);\
 
 #endif

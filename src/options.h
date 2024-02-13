@@ -9,6 +9,7 @@ typedef struct options_t {
   char *title;
   char *subtitle;
   char *custom_font;
+  char *language_override;
 
   bool bold_mode;
   bool italic_mode;
